@@ -1,34 +1,27 @@
-
-// fetch('https://api.spoonacular.com/recipes/complexSearch?apiKey=61e6c35303cf4318854d321111a0c9ea')
-//   .then(response => response.json())
-//   .then(characters => {
-//     localStorage.setItem('characters', JSON.stringify(characters.results));
-//     renderCharacters(characters.results);
-//   });
-
 const cardsContainer = document.querySelector('#cards-container');
 const searchInput = document.querySelector('#search-input');
 const searchButton = document.querySelector('#search-button');
-let parsedData = null; // Declare parsedData outside of the functions
+let parsedData = null;
 
-
-if(localStorage.getItem('characters')) {
-  const characters = JSON.parse(localStorage.getItem('characters'));
-  parsedData = { results: characters }; // Set parsedData to an object with results property
-  renderCharacters(characters);
+if (localStorage.getItem('items')) {
+  const items = JSON.parse(localStorage.getItem('items'));
+  parsedData = { recipes: items };
+  renderitems(items);
+  console.log("from local")
 } else {
-  // Fetch data from API and store in local storage
-  fetch('https://api.spoonacular.com/recipes/complexSearch?apiKey=61e6c35303cf4318854d321111a0c9ea')
+  fetch('https://api.spoonacular.com/recipes/random?apiKey=3dac005e3e3b4988b539913a929d000d&number=10')
     .then(response => response.json())
-    .then(characters => {
-      localStorage.setItem('characters', JSON.stringify(characters.results));
-      parsedData = characters; // Set parsedData to the fetched data
-      renderCharacters(characters.results);
+    .then(items => {
+      localStorage.setItem('items', JSON.stringify(items.recipes));
+      parsedData = items;
+      renderitems(items.recipes);
+      console.log("from api")
     });
-} 
+}
 
-function renderCharacters(characters) {
-  characters.forEach(character => {
+function renderitems(items) {
+  cardsContainer.innerHTML = '';
+  items.forEach(item => {
     const div = document.createElement('div');
     const title = document.createElement('h3');
     const image = document.createElement('img');
@@ -36,8 +29,8 @@ function renderCharacters(characters) {
     div.classList = 'card'
     image.classList = 'card-img'
    
-    image.src = character.image
-    title.innerText = `${character.title}`
+    image.src = item.image
+    title.innerText = `${item.title}`
 
     div.appendChild(title)
     div.appendChild(image)
@@ -65,25 +58,14 @@ function renderCharacters(characters) {
       });
     });
   });
-};
-searchButton.addEventListener('click', () => {
+}
+
+function handleSearch() {
   const searchTerm = searchInput.value.trim();
-  if (parsedData && parsedData.results) {
-    const filteredRecipes = parsedData.results.filter(recipe => recipe.title.toLowerCase().includes(searchTerm.toLowerCase()));
-    cardsContainer.innerHTML = ''; // clear the cardsContainer
-    renderCharacters(filteredRecipes);
+  if (parsedData && parsedData.recipes) {
+    const filteredRecipes = parsedData.recipes.filter(recipe => recipe.title.toLowerCase().includes(searchTerm.toLowerCase()));
+    renderitems(filteredRecipes);
   }
-});
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
+searchButton.addEventListener('click', handleSearch);
