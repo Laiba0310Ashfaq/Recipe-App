@@ -1,7 +1,9 @@
 .topic{
     text-align: center;
-    font-size: x-large;
-    padding: 5%;
+    font-size: xx-large;
+    padding: 3%;
+    color:#007bff;
+    
 }
 .search-container {
     display: flex;
@@ -52,6 +54,7 @@
   .card h3 {
     font-size: 1.2rem;
     margin: 10px;
+    text-align: center;
   }
 
 
@@ -85,4 +88,3 @@
     border: none;
     border-radius: 5px;
   }
-  
