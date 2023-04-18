@@ -44,10 +44,14 @@ function renderitems(items) {
       const content = document.createElement('div');
       content.classList = 'modal-content';
 
+      const recipeInstructions = document.createElement('ol');
+      recipeInstructions.innerHTML = item.analyzedInstructions[0].steps.map(step => `<li>${step.step}</li>`).join('');
+
       const closeButton = document.createElement('button');
       closeButton.classList = 'close-button';
       closeButton.innerText = 'Close';
 
+      content.appendChild(recipeInstructions);
       content.appendChild(closeButton);
       modal.appendChild(content);
       document.body.appendChild(modal);
@@ -59,7 +63,6 @@ function renderitems(items) {
     });
   });
 }
-
 function handleSearch() {
   const searchTerm = searchInput.value.trim();
   if (parsedData && parsedData.recipes) {
