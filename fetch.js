@@ -25,15 +25,20 @@ function renderitems(items) {
     const div = document.createElement('div');
     const title = document.createElement('h3');
     const image = document.createElement('img');
+    const recipeIngredients = document.createElement('ul');
+    
     
     div.classList = 'card'
     image.classList = 'card-img'
    
     image.src = item.image
     title.innerText = `${item.title}`
+    recipeIngredients.innerHTML = item.extendedIngredients.map(ingredient =>
+       `<li>${ingredient.name}</li>`).join('');
 
     div.appendChild(title)
     div.appendChild(image)
+    div.appendChild(recipeIngredients);
     cardsContainer.appendChild(div)
     
 
@@ -44,6 +49,16 @@ function renderitems(items) {
       const content = document.createElement('div');
       content.classList = 'modal-content';
 
+      const Quantity = document.createElement('h3');
+      Quantity.innerHTML='Quantity of Ingredients: '
+
+       const IngredientsQuantity = document.createElement('ul');
+       IngredientsQuantity.innerHTML = item.extendedIngredients.map(ingredient =>
+         `<li>${ingredient.original}</li>`).join('');
+
+      const heading = document.createElement('h3');
+      heading.innerHTML='Recipe: '
+
       const recipeInstructions = document.createElement('ol');
       recipeInstructions.innerHTML = item.analyzedInstructions[0].steps.map(step => `<li>${step.step}</li>`).join('');
 
@@ -51,6 +66,9 @@ function renderitems(items) {
       closeButton.classList = 'close-button';
       closeButton.innerText = 'Close';
 
+       content.appendChild(Quantity)
+       content.appendChild(IngredientsQuantity)
+      content.appendChild(heading)
       content.appendChild(recipeInstructions);
       content.appendChild(closeButton);
       modal.appendChild(content);
