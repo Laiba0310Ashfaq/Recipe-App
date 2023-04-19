@@ -1,40 +1,50 @@
-const cardsContainer = document.querySelector('#cards-container');
-const searchInput = document.querySelector('#search-input');
-const searchButton = document.querySelector('#search-button');
-let parsedData = null;
+const cardsContainer = document.querySelector('#cards-container')
+const searchInput = document.querySelector('#search-input')
+const searchButton = document.querySelector('#search-button')
+let parsedData = null
 
-if (localStorage.getItem('items')) {
-  const items = JSON.parse(localStorage.getItem('items'));
-  parsedData = { recipes: items };
-  renderitems(items);
+if (localStorage.getItem('items')) 
+{
+  const items = JSON.parse(localStorage.getItem('items'))
+  parsedData = { recipes: items }
+  renderitems(items)
   console.log("from local")
-} else {
+}
+ else if (localStorage.getItem('items') === null) 
+{
   fetch('https://api.spoonacular.com/recipes/random?apiKey=3dac005e3e3b4988b539913a929d000d&number=10')
     .then(response => response.json())
-    .then(items => {
-      localStorage.setItem('items', JSON.stringify(items.recipes));
-      parsedData = items;
-      renderitems(items.recipes);
+    .then(items =>
+    {
+      localStorage.setItem('items', JSON.stringify(items.recipes))
+      parsedData = items
+      renderitems(items.recipes)
       console.log("from api")
-    });
+    })
+} 
+else
+{
+  console.log("Error")
 }
 
-function renderitems(items) {
-  cardsContainer.innerHTML = '';
-  items.forEach(item => {
-    const div = document.createElement('div');
-    const title = document.createElement('h3');
-    const image = document.createElement('img');
-    const recipeIngredients = document.createElement('ul');
-    
+function renderitems(items)
+{
+  cardsContainer.innerHTML = ''
+  items.forEach(item =>
+  {
+    const div = document.createElement('div')
+    const title = document.createElement('h3')
+    const image = document.createElement('img')
+    const recipeIngredients = document.createElement('ul')
     
     div.classList = 'card'
     image.classList = 'card-img'
+    recipeIngredients.classList='ingredients'
    
     image.src = item.image
     title.innerText = `${item.title}`
     recipeIngredients.innerHTML = item.extendedIngredients.map(ingredient =>
-       `<li>${ingredient.name}</li>`).join('');
+       `<li>${ingredient.name}</li>`).join('')
 
     div.appendChild(title)
     div.appendChild(image)
@@ -43,11 +53,11 @@ function renderitems(items) {
     
 
     div.addEventListener('click', () => {
-      const modal = document.createElement('div');
-      modal.classList = 'modal';
+      const box = document.createElement('div');
+      box.classList = 'box';
 
       const content = document.createElement('div');
-      content.classList = 'modal-content';
+      content.classList = 'box-content';
 
       const Quantity = document.createElement('h3');
       Quantity.innerHTML='Quantity of Ingredients: '
@@ -71,16 +81,17 @@ function renderitems(items) {
       content.appendChild(heading)
       content.appendChild(recipeInstructions);
       content.appendChild(closeButton);
-      modal.appendChild(content);
-      document.body.appendChild(modal);
+      box.appendChild(content);
+      document.body.appendChild(box);
 
       // Add event listener to close button
       closeButton.addEventListener('click', () => {
-        document.body.removeChild(modal);
+        document.body.removeChild(box);
       });
     });
   });
 }
+
 function handleSearch() {
   const searchTerm = searchInput.value.trim();
   if (parsedData && parsedData.recipes) {
