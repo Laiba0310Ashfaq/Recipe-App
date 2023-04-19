@@ -97,7 +97,7 @@ function handleSearch() {
   if (parsedData && parsedData.recipes) {
     const filteredRecipes = parsedData.recipes.filter(recipe => recipe.title.toLowerCase().includes(searchTerm.toLowerCase()));
     renderitems(filteredRecipes);
-  }
+  }  
 }
 
 searchButton.addEventListener('click', handleSearch);
