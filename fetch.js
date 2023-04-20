@@ -43,61 +43,62 @@ function renderitems(items)
    
     image.src = item.image
     title.innerText = `${item.title}`
-    recipeIngredients.innerHTML = item.extendedIngredients.map(ingredient =>
-       `<li>${ingredient.name}</li>`).join('')
+    recipeIngredients.innerHTML = item.extendedIngredients.map(ingredient =>`<li>${ingredient.name}</li>`).join('')
 
     div.appendChild(title)
     div.appendChild(image)
-    div.appendChild(recipeIngredients);
+    div.appendChild(recipeIngredients)
     cardsContainer.appendChild(div)
     
 
-    div.addEventListener('click', () => {
-      const box = document.createElement('div');
-      box.classList = 'box';
+    div.addEventListener('click', () =>
+    {
+      const box = document.createElement('div')
+      box.classList = 'box'
 
-      const content = document.createElement('div');
-      content.classList = 'box-content';
+      const content = document.createElement('div')
+      content.classList = 'box-content'
 
-      const Quantity = document.createElement('h3');
+      const Quantity = document.createElement('h3')
       Quantity.innerHTML='Quantity of Ingredients: '
 
-       const IngredientsQuantity = document.createElement('ul');
+       const IngredientsQuantity = document.createElement('ul')
        IngredientsQuantity.innerHTML = item.extendedIngredients.map(ingredient =>
-         `<li>${ingredient.original}</li>`).join('');
+         `<li>${ingredient.original}</li>`).join('')
 
-      const heading = document.createElement('h3');
+      const heading = document.createElement('h3')
       heading.innerHTML='Recipe: '
 
-      const recipeInstructions = document.createElement('ol');
-      recipeInstructions.innerHTML = item.analyzedInstructions[0].steps.map(step => `<li>${step.step}</li>`).join('');
+      const recipeInstructions = document.createElement('ol')
+      recipeInstructions.innerHTML = item.analyzedInstructions[0].steps.map(step => `<li>${step.step}</li>`).join('')
 
-      const closeButton = document.createElement('button');
-      closeButton.classList = 'close-button';
-      closeButton.innerText = 'Close';
+      const closeButton = document.createElement('button')
+      closeButton.classList = 'close-button'
+      closeButton.innerText = 'Close'
 
-       content.appendChild(Quantity)
-       content.appendChild(IngredientsQuantity)
+      content.appendChild(Quantity)
+      content.appendChild(IngredientsQuantity)
       content.appendChild(heading)
-      content.appendChild(recipeInstructions);
-      content.appendChild(closeButton);
-      box.appendChild(content);
-      document.body.appendChild(box);
+      content.appendChild(recipeInstructions)
+      content.appendChild(closeButton)
+      box.appendChild(content)
+      document.body.appendChild(box)
 
-      // Add event listener to close button
-      closeButton.addEventListener('click', () => {
-        document.body.removeChild(box);
-      });
-    });
-  });
+      
+      closeButton.addEventListener('click', () => 
+      {
+        document.body.removeChild(box)
+      })
+    })
+  })
 }
 
-function handleSearch() {
-  const searchTerm = searchInput.value.trim();
+function handleSearch() 
+{
+  const searchTerm = searchInput.value.trim()
   if (parsedData && parsedData.recipes) {
-    const filteredRecipes = parsedData.recipes.filter(recipe => recipe.title.toLowerCase().includes(searchTerm.toLowerCase()));
-    renderitems(filteredRecipes);
+    const filteredRecipes = parsedData.recipes.filter(recipe => recipe.title.toLowerCase().includes(searchTerm.toLowerCase()))
+    renderitems(filteredRecipes)
   }  
 }
-
-searchButton.addEventListener('click', handleSearch);
+searchButton.addEventListener('click', handleSearch)
